@@ -70,6 +70,21 @@ struct NavigationStepsCardView: View {
         }
     }
 }
+// MARK: - SynamicIslandView
+/// This small capsule represents your “Dynamic Island.”
+struct DynamicIslandView: View {
+    var body: some View {
+        Capsule()
+            .fill(Color.black)
+            .frame(width: 120, height: 35)
+            .overlay(
+                Text("Navigation")
+                    .foregroundColor(.white)
+                    .font(.subheadline)
+            )
+            .offset(y: 12)
+    }
+}
 
 import Foundation
 import MapKit

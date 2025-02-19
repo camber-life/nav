@@ -5,7 +5,13 @@ import CoreLocation
 import WeatherKit
 import Combine
 
+// MARK: - ContentView
 struct ContentView: View {
+    // The following types are assumed to be defined elsewhere:
+    // LocationManager, CompassMapView, MusicControlView, MusicServiceBar,
+    // ContactBar, CategoryBar, FavoriteDestinationBar, StatusCapsulesView,
+    // SearchView, SettingsView, FavoritesStorage, RoundedCorner, etc.
+    
     static let defaultSpan = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     
     @State private var region = MKCoordinateRegion(
@@ -39,6 +45,8 @@ struct ContentView: View {
         .musicVenue, .fairground, .aquarium, .castle, .fortress
     ]
     
+    @Namespace private var islandNamespace
+    
     var body: some View {
         ZStack(alignment: .bottom) {
             // Main map and music controls
@@ -51,7 +59,8 @@ struct ContentView: View {
                     .frame(maxHeight: .infinity)
                     .clipShape(RoundedCorner(radius: 25, corners: [.bottomLeft, .bottomRight]))
                     .zIndex(1)
-                MusicControlView(showPlaylistSelector: $showPlaylistSelector,                 selectedService: $selectedMusicService)
+                MusicControlView(showPlaylistSelector: $showPlaylistSelector,
+                                 selectedService: $selectedMusicService)
                     .environmentObject(musicPlayerViewModel)
                     .environmentObject(musicLibraryViewModel)
                     .frame(height: 225)
@@ -59,7 +68,7 @@ struct ContentView: View {
                     .zIndex(0)
             }
             
-            // Bottom overlays (only show these if no destination is selected)
+            // Bottom overlays (if no destination is selected)
             if selectedMapItem == nil {
                 ContactBar()
                     .padding(.trailing, 16)
@@ -83,8 +92,9 @@ struct ContentView: View {
             }
             
             // Music Action Bar
-            MusicServiceBar(showMusicServices: $showMusicServices, showPlaylistSelector: $showPlaylistSelector, selectedService: $selectedMusicService
-)
+            MusicServiceBar(showMusicServices: $showMusicServices,
+                            showPlaylistSelector: $showPlaylistSelector,
+                            selectedService: $selectedMusicService)
                 .environmentObject(musicPlayerViewModel)
                 .offset(x: 200)
                 .padding(.trailing, 16)
@@ -99,17 +109,14 @@ struct ContentView: View {
                     navigationSteps: navStepsVM.steps,
                     onClose: {
                         selectedMapItem = nil
-                        // When destination is closed, exit navigation mode.
                         navigationMode = false
                     },
                     onNavigate: {
-                        // User tapped the green button. Enter NavigationMode.
                         withAnimation {
                             showNavigationSteps = true
                             navigationMode = true
                             currentNavStepIndex = 0
                             // Adjust the map region for NavigationMode.
-                            // **Adjust the values below to achieve your desired zoom and 3D view:**
                             region.center = navStepsVM.steps.first?.coordinate ?? region.center
                             region.span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
                         }
@@ -119,14 +126,13 @@ struct ContentView: View {
                 .transition(.move(edge: .bottom))
                 .animation(.spring(), value: selectedMapItem)
                 .zIndex(4)
-                .offset(y:15)
+                .offset(y: 15)
             }
         }
-        // Top overlay: combine profile, search, and status capsules
+        // Top overlay: Profile, Search, Status Capsules
         .overlay(
-            VStack{
-                Spacer().frame(height: 32) // Adjust this value as needed
-
+            VStack {
+                Spacer().frame(height: 32)
                 HStack {
                     Button(action: { showSettingsSheet = true }) {
                         Image(systemName: "person.crop.circle")
@@ -156,24 +162,32 @@ struct ContentView: View {
             .padding(.top, 20),
             alignment: .top
         )
-        
-        // New overlay for NavigationStepsCardView (placed behind the status overlay)
-                .overlay(
-                    Group {
-                        if showNavigationSteps {
-                            NavigationStepsCardView(steps: navStepsVM.steps,
-                                                    currentStepIndex: $currentNavStepIndex)
-                                .onTapGesture {
-                                    // Tapping the overlay toggles it off.
-                                    withAnimation { showNavigationSteps = false }
-                                }
-                                .transition(.move(edge: .top))
+        // Overlay for NavigationStepsCardView / Synamic Island using matchedGeometryEffect
+        .overlay(
+            Group {
+                if showNavigationSteps {
+                    NavigationStepsCardView(steps: navStepsVM.steps,
+                                            currentStepIndex: $currentNavStepIndex)
+                        .matchedGeometryEffect(id: "navStepsCard", in: islandNamespace)
+                        .onTapGesture {
+                            withAnimation {
+                                showNavigationSteps = false
+                            }
                         }
-                    }
-                    .zIndex(1),
-                    alignment: .top
-                )
-        // Sheets and onAppear handlers
+                } else {
+                    DynamicIslandView()
+                        .matchedGeometryEffect(id: "navStepsCard", in: islandNamespace)
+                        .onTapGesture {
+                            withAnimation {
+                                showNavigationSteps = true
+                            }
+                        }
+                }
+            }
+            .zIndex(1),
+            alignment: .top
+        )
+        // Sheets and additional modifiers
         .sheet(isPresented: $showSearchView) {
             SearchView(searchText: $searchText,
                        isPresented: $showSearchView,
@@ -198,23 +212,17 @@ struct ContentView: View {
         .onChange(of: showSearchView) { newValue in if newValue == false { region.span = ContentView.defaultSpan } }
         .onChange(of: showSettingsSheet) { newValue in if newValue == false { region.span = ContentView.defaultSpan } }
         .onChange(of: selectedMapItem) { newItem in
-            // Reset the navigation overlay flag whenever a new destination is chosen.
             showNavigationSteps = false
             navStepsVM.calculateRouteSteps(from: locationManager.location, to: newItem)
         }
         .onChange(of: currentNavStepIndex) { newIndex in
-            if navigationMode,
-               navStepsVM.steps.indices.contains(newIndex) {
-                // Update the map region to center on the coordinate for the new step.
-                // **Adjust these values (span, etc.) for your desired camera effect:**
+            if navigationMode, navStepsVM.steps.indices.contains(newIndex) {
                 region.center = navStepsVM.steps[newIndex].coordinate
                 region.span = MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
             }
         }
-        // When navigation mode is toggled off, you can optionally reset the region.
         .onChange(of: showNavigationSteps) { newValue in
             if !newValue {
-                // Optionally reset the region span when navigation overlay is dismissed.
                 region.span = ContentView.defaultSpan
             }
         }
