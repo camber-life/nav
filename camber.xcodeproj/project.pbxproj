@@ -6,13 +6,44 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		9DD51A922D6291D900FB4217 /* MapboxMaps in Frameworks */ = {isa = PBXBuildFile; productRef = 9DD51A912D6291D900FB4217 /* MapboxMaps */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		9D73BFFC2D5AD41C001EFFB9 /* camber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = camber.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		9DA12D402D5D98C80015D43F /* Exceptions for "camber" folder in "camber" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Extensions/Color.swift,
+				Info.plist,
+				Models/DefaultCategoryGroups.swift,
+			);
+			target = 9D73BFFB2D5AD41C001EFFB9 /* camber */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		9DD51A3F2D60DC4A00FB4217 /* Exceptions for "camber" folder in "Copy Bundle Resources" phase from "camber" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 9D73BFFA2D5AD41C001EFFB9 /* Resources */;
+			membershipExceptions = (
+				Extensions/Color.swift,
+				Models/DefaultCategoryGroups.swift,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		9D73BFFE2D5AD41C001EFFB9 /* camber */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				9DA12D402D5D98C80015D43F /* Exceptions for "camber" folder in "camber" target */,
+				9DD51A3F2D60DC4A00FB4217 /* Exceptions for "camber" folder in "Copy Bundle Resources" phase from "camber" target */,
+			);
 			path = camber;
 			sourceTree = "<group>";
 		};
@@ -23,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9DD51A922D6291D900FB4217 /* MapboxMaps in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +97,7 @@
 			);
 			name = camber;
 			packageProductDependencies = (
+				9DD51A912D6291D900FB4217 /* MapboxMaps */,
 			);
 			productName = camber;
 			productReference = 9D73BFFC2D5AD41C001EFFB9 /* camber.app */;
@@ -94,6 +127,9 @@
 			);
 			mainGroup = 9D73BFF32D5AD41C001EFFB9;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				9DD51A902D6291D900FB4217 /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 9D73BFFD2D5AD41C001EFFB9 /* Products */;
 			projectDirPath = "";
@@ -249,17 +285,24 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = camber/camber.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"camber/Preview Content\"";
 				DEVELOPMENT_TEAM = H7QFD3QTWD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = camber/Info.plist;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "\"Access is needed to display your playlists and control playback of Music\"";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "location needed for weather";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"Access is needed to display your current location\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -267,6 +310,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.evrifinance.camber;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -278,17 +322,24 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = camber/camber.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"camber/Preview Content\"";
 				DEVELOPMENT_TEAM = H7QFD3QTWD;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = camber/Info.plist;
+				INFOPLIST_KEY_NSAppleMusicUsageDescription = "\"Access is needed to display your playlists and control playback of Music\"";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "location needed for weather";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"Access is needed to display your current location\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -296,6 +347,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.evrifinance.camber;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -324,6 +376,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9DD51A902D6291D900FB4217 /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mapbox/mapbox-maps-ios.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9DD51A912D6291D900FB4217 /* MapboxMaps */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9DD51A902D6291D900FB4217 /* XCRemoteSwiftPackageReference "mapbox-maps-ios" */;
+			productName = MapboxMaps;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9D73BFF42D5AD41C001EFFB9 /* Project object */;
 }
